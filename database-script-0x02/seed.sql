@@ -19,7 +19,7 @@ VALUES
 -- Insert payments
 INSERT INTO Payments (payment_id, booking_id, amount, payment_method)
 VALUES 
-('pay-001', 'book-001', 90.00, 'paypal');
+('pay-001', 'book-001', 90.00, 'M-pesa');
 
 -- Insert reviews
 INSERT INTO Reviews (review_id, property_id, user_id, rating, comment)
