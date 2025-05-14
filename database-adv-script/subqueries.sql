@@ -16,3 +16,15 @@ WHERE
             AVG(r.rating) > 4.0
     );
 
+SELECT 
+    u.id,
+    u.name,
+    u.email
+FROM 
+    users AS u
+WHERE 
+    (
+        SELECT COUNT(*) 
+        FROM bookings AS b
+        WHERE b.user_id = u.id          -- correlated reference to the outer query
+    ) > 3;
