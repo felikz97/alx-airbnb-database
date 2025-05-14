@@ -39,3 +39,37 @@ CREATE INDEX idx_property_rating ON properties(rating);
 -- 4. Composite Index (Booking Table)
 -- Composite Index on property_id and user_id (for more efficient JOIN operations)
 CREATE INDEX idx_booking_property_user ON bookings(property_id, user_id);
+
+-- 1. Measuring Query Performance (Before Indexing)
+EXPLAIN SELECT 
+    p.id AS property_id,
+    p.name AS property_name,
+    COUNT(b.id) AS total_bookings,
+    RANK() OVER (ORDER BY COUNT(b.id) DESC) AS booking_rank,
+    ROW_NUMBER() OVER (ORDER BY COUNT(b.id) DESC) AS booking_row_number
+FROM 
+    properties p
+LEFT JOIN 
+    bookings b ON p.id = b.property_id
+GROUP BY 
+    p.id, p.name
+ORDER BY 
+    booking_rank;
+
+-- 2. After Adding Indexes:
+EXPLAIN ANALYZE
+SELECT 
+    p.id AS property_id,
+    p.name AS property_name,
+    COUNT(b.id) AS total_bookings,
+    RANK() OVER (ORDER BY COUNT(b.id) DESC) AS booking_rank,
+    ROW_NUMBER() OVER (ORDER BY COUNT(b.id) DESC) AS booking_row_number
+FROM 
+    properties p
+LEFT JOIN 
+    bookings b ON p.id = b.property_id
+GROUP BY 
+    p.id, p.name
+ORDER BY 
+    booking_rank;
+
