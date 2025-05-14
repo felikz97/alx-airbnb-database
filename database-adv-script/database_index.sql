@@ -20,3 +20,22 @@ CREATE INDEX idx_booking_date ON bookings(booking_date);
 
 -- Index on status (if filtering by booking status is common)
 CREATE INDEX idx_booking_status ON bookings(status);
+
+
+-- 3. Property Table Indexes
+-- Index on id (Primary Key, automatically created)
+-- Index on name (if searching/filtering by property name is common)
+CREATE INDEX idx_property_name ON properties(name);
+
+-- Index on location (if filtering by location is common)
+CREATE INDEX idx_property_location ON properties(location);
+
+-- Index on price (for price range filtering)
+CREATE INDEX idx_property_price ON properties(price);
+
+-- Index on rating (for sorting/filtering by rating)
+CREATE INDEX idx_property_rating ON properties(rating);
+
+-- 4. Composite Index (Booking Table)
+-- Composite Index on property_id and user_id (for more efficient JOIN operations)
+CREATE INDEX idx_booking_property_user ON bookings(property_id, user_id);
